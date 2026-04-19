@@ -15,6 +15,8 @@ import { config } from '../lib/config';
 export default function Home() {
   const [data, setData] = useState<PortfolioData | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('about');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     fetchPortfolioData()
@@ -24,10 +26,43 @@ export default function Home() {
       });
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      setScrollProgress(Math.min(100, Math.max(0, progress)));
+
+      const headerHeight = document.querySelector('header')?.clientHeight ?? 112;
+      const sections = Array.from(document.querySelectorAll('section[id]')) as HTMLElement[];
+      if (sections.length === 0) return;
+
+      const scrollMarker = scrollTop + headerHeight + 64;
+      let currentSectionId = sections[0].id;
+      for (const section of sections) {
+        if (scrollMarker >= section.offsetTop) {
+          currentSectionId = section.id;
+        } else {
+          break;
+        }
+      }
+      setActiveSection(currentSectionId);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [data]);
+
   if (!data) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] text-gray-400 px-6">
-        Loading portfolio...
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] text-gray-400 px-6">
+        <div className="mb-6 h-16 w-16 rounded-full border-4 border-t-4 border-white/10 border-t-emerald-400 animate-spin" />
+        <p className="text-sm uppercase tracking-[0.35em] text-gray-400">Loading portfolio...</p>
       </div>
     );
   }
@@ -42,14 +77,31 @@ export default function Home() {
         animate={{ y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
       >
+        <div className="h-1 overflow-hidden bg-white/10">
+          <motion.div
+            className="h-full bg-gradient-to-r from-emerald-400 via-cyan-300 to-sky-500"
+            style={{ width: `${scrollProgress}%` }}
+          />
+        </div>
+
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 px-6 py-4">
           <div className="text-xl font-bold mono tracking-[0.18em]">{header.title}</div>
           <div className="hidden items-center gap-4 text-sm font-medium md:flex">
-            {header.navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="hover:text-gray-300 transition-colors">
-                {link.label}
-              </a>
-            ))}
+            {header.navLinks.map((link) => {
+              const sectionId = link.href.replace('#', '');
+              const isActive = activeSection === sectionId;
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`transition-colors ${
+                    isActive ? 'text-white border-b-2 border-emerald-400' : 'text-gray-400 hover:text-gray-200'
+                  } py-1`}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
           </div>
 
           <button
@@ -65,16 +117,22 @@ export default function Home() {
         {menuOpen && (
           <div className="bg-black/95 border-t border-gray-800 px-6 py-4 md:hidden">
             <div className="flex flex-col gap-3 text-sm font-medium">
-              {header.navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="rounded-3xl border border-gray-800 bg-white/5 px-4 py-3 transition hover:border-green-400 hover:text-white"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
+              {header.navLinks.map((link) => {
+                const sectionId = link.href.replace('#', '');
+                const isActive = activeSection === sectionId;
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className={`rounded-3xl border border-gray-800 bg-white/5 px-4 py-3 transition ${
+                      isActive ? 'border-emerald-400 text-white' : 'hover:border-green-400 hover:text-white text-gray-300'
+                    }`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
             </div>
           </div>
         )}
@@ -250,34 +308,71 @@ export default function Home() {
               <h2 className="text-3xl font-bold md:text-4xl">{ui.sectionSubtitles.experience}</h2>
             </div>
 
-            <div className="grid gap-6">
-              {experience.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  className="rounded-[32px] border border-gray-800 bg-[#111111]/95 p-8"
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.08 }}
-                >
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="text-xs text-green-400 mono uppercase tracking-[0.35em]">{item.period}</p>
-                      <h3 className="text-xl font-semibold mt-3">{item.title}</h3>
-                      <p className="text-sm text-gray-400">{item.company}</p>
+            <div className="relative">
+              <div className="hidden lg:block absolute left-1/2 top-0 h-full w-px bg-white/10" />
+
+              <div className="space-y-10">
+                {experience.map((item, index) => {
+                  const isEven = index % 2 === 0;
+                  const card = (
+                    <div className="rounded-[32px] border border-gray-800 bg-[#111111]/95 p-8 shadow-[0_20px_40px_rgba(0,0,0,0.25)]">
+                      <div className="flex flex-col gap-2">
+                        <p className="text-xs text-green-400 mono uppercase tracking-[0.35em]">{item.period}</p>
+                        <h3 className="text-xl font-semibold mt-3">{item.title}</h3>
+                        <p className="text-sm text-gray-400">{item.company}</p>
+                      </div>
+                      <span className="mt-4 inline-flex rounded-full border border-gray-800 bg-white/5 px-4 py-2 text-xs mono uppercase tracking-[0.3em] text-gray-300">
+                        {ui.enterpriseTag}
+                      </span>
+                      <ul className="mt-6 space-y-3 text-gray-300 text-sm">
+                        {item.bullets.map((bullet) => (
+                          <li key={bullet} className="flex gap-3">
+                            <span className="mt-1 inline-flex h-2 w-2 rounded-full bg-green-400" />
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <span className="rounded-full border border-gray-800 bg-white/5 px-4 py-2 text-xs mono uppercase tracking-[0.3em] text-gray-300">{ui.enterpriseTag}</span>
-                  </div>
-                  <ul className="mt-6 space-y-3 text-gray-300 text-sm">
-                    {item.bullets.map((bullet) => (
-                      <li key={bullet} className="flex gap-3">
-                        <span className="mt-1 inline-flex h-2 w-2 rounded-full bg-green-400" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
+                  );
+
+                  return (
+                    <motion.div
+                      key={item.title}
+                      className="relative lg:grid lg:grid-cols-[1fr_64px_1fr] lg:items-center"
+                      initial={{ opacity: 0, y: 24 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: index * 0.08 }}
+                    >
+                      <div className={`hidden lg:block ${isEven ? 'lg:pr-8' : ''}`}>
+                        {isEven ? card : null}
+                      </div>
+
+                      <div className="hidden lg:flex relative justify-center items-center lg:col-start-2">
+                        <div className="absolute inset-y-0 w-px bg-white/10" />
+                        <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-emerald-400 bg-[#0a0a0a]">
+                          <span className="h-3 w-3 rounded-full bg-emerald-400" />
+                        </div>
+                      </div>
+
+                      <div className={`hidden lg:block ${!isEven ? 'lg:pl-8' : ''}`}>
+                        {!isEven ? card : null}
+                      </div>
+
+                      <div className="lg:hidden">
+                        <div className="flex items-start gap-4">
+                          <div className="flex flex-col items-center">
+                            <span className="h-10 w-0.5 rounded-full bg-white/10" />
+                            <span className="mt-2 h-4 w-4 rounded-full border border-emerald-400 bg-[#0a0a0a] hidden" />
+                            <span className="mt-2 flex-1 w-px bg-white/10" />
+                          </div>
+                          <div className="flex-1">{card}</div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
