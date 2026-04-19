@@ -2,7 +2,16 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, set up your environment variables:
+
+```bash
+# Copy the example environment file
+cp .env.example .env.local
+
+# Edit .env.local with your values
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -17,6 +26,21 @@ bun dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+## Environment Variables
+
+This project uses environment variables for configuration. The available variables are documented in `.env.example`.
+
+- `.env.local` - Development environment (ignored by git)
+- `.env.production` - Production environment (can be committed)
+- `.env.example` - Template file showing available variables
+
+### Key Variables
+
+- `NEXT_PUBLIC_APP_ENV` - Current environment (development/production)
+- `NEXT_PUBLIC_APP_URL` - Base URL of the application
+- `NEXT_PUBLIC_ENABLE_ANALYTICS` - Enable/disable analytics tracking
+- `NEXT_PUBLIC_ENABLE_EMAIL_CONTACT` - Enable/disable email contact form
 
 ## Learn More
 
