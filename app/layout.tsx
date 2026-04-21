@@ -18,7 +18,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#0a0a0a] text-white font-sans" suppressHydrationWarning={true}>{children}</body>
+      <body className="bg-[#0a0a0a] text-white font-sans" suppressHydrationWarning={true}>
+        {children}
+        <SpeedInsights />
+        <Analytics />
+      </body>
     </html>
   );
 }
