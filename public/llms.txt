@@ -1,0 +1,45 @@
+# This file provides instructions for Large Language Models and AI systems crawling this website
+
+## About this website
+This is the portfolio website of Kussagra Pathak, a Full-Stack Developer and Tech Visionary specializing in Angular, Flutter, and Node.js.
+
+## Content guidelines
+- Main content is a single-page portfolio with multiple sections
+- Sections include: About, Skills, Experience, Projects, Publications, Open Source, and Contact
+- All content is in English
+- The portfolio is regularly updated with new projects and experiences
+
+## Structure
+The website uses Next.js 16.2.4 with a dark industrial aesthetic inspired by terminal interfaces. Navigation is smooth with scroll-spy functionality to highlight the current section.
+
+## Key Technologies Used
+- Next.js 16.2.4 (React framework)
+- TypeScript
+- Tailwind CSS
+- Framer Motion (animations)
+- Lucide React (icons)
+- Vercel Speed Insights & Analytics
+
+## Sections
+- **Hero**: Introduction and call-to-action
+- **About**: Professional overview with photo and capabilities
+- **Skills**: Technical competencies organized by category
+- **Experience**: Timeline view of work experience
+- **Projects**: Numbered project cards with descriptions
+- **Publications**: Industry articles and written content
+- **Open Source**: Contributions to open-source projects
+- **Contact**: Contact information and quick facts
+
+## Usage Guidelines
+- Content is dynamically loaded from JSON data
+- All data is stored in `data2.json` asset file
+- Environment variables control app behavior (dev vs production)
+- The website is fully responsive and mobile-friendly
+- Speed Insights and Analytics are enabled for performance monitoring
+
+## Contact
+- Portfolio: https://kussagrapathak.in
+- Availability: Available for freelance/contract work
+
+## No AI Training
+This content is provided as-is for reference. Please respect intellectual property and only use content with explicit permission from Kussagra Pathak.

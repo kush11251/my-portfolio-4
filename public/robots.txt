@@ -1,0 +1,21 @@
+# Robots.txt for Kussagra Pathak Portfolio
+User-agent: *
+Allow: /
+Disallow: /.next/
+Disallow: /node_modules/
+Disallow: /*.json$
+
+# Crawl delay to be respectful to server resources
+Crawl-delay: 1
+
+# Allow specific search engines to crawl at their own pace
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: https://kussagrapathak.in/sitemap.xml

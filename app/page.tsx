@@ -71,6 +71,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-white bg-[#0a0a0a]">
+      <h1 className="sr-only">Kussagra Pathak - Full-Stack Developer Portfolio</h1>
       <motion.header
         className="fixed inset-x-0 top-0 z-50 border-b border-gray-800 bg-black/70 backdrop-blur-md"
         initial={{ y: -120 }}
@@ -141,7 +142,7 @@ export default function Home() {
       <main className="relative overflow-hidden pt-24">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.14),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.10),_transparent_24%)] pointer-events-none" />
 
-        <section className="min-h-screen flex items-center justify-center px-6 pb-20">
+        <section className="min-h-screen flex items-center justify-center px-6 pb-20" aria-label="Hero section">
           <div className="relative w-full max-w-5xl">
             <motion.div
               className="absolute inset-0 pointer-events-none rounded-[36px] border border-gray-800"
