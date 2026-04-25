@@ -1,0 +1,258 @@
+{
+  "layout": {
+    "title": "Portfolio - Kussagra Pathak",
+    "description": "Full-stack developer portfolio showcasing projects and experience"
+  },
+  "ui": {
+    "loading": "Loading portfolio...",
+    "menuOpen": "Close menu",
+    "menuClosed": "Open menu",
+    "systemStatusLabel": "System Status",
+    "systemStatusDescription": "All systems operational.",
+    "sectionTitles": {
+      "about": "WHO I AM",
+      "skills": "WHAT I DO",
+      "experience": "EXPERIENCE",
+      "projects": "PROJECTS",
+      "publications": "ARTICLES & PUBLICATIONS",
+      "openSource": "OPEN SOURCE",
+      "contact": "GET IN TOUCH"
+    },
+    "sectionSubtitles": {
+      "skills": "Expertise across frontend, backend, and cloud technologies",
+      "experience": "Professional journey and roles",
+      "projects": "Notable projects and contributions",
+      "publications": "Technical articles and writeups",
+      "openSource": "Community contributions"
+    },
+    "footerLabel": "FOOTER",
+    "enterpriseTag": "Enterprise",
+    "quickFacts": "QUICK FACTS",
+    "coreCapabilitiesTitle": "CORE CAPABILITIES"
+  },
+  "header": {
+    "title": "KUSSAGRA PATHAK",
+    "navLinks": [
+      { "label": "About", "href": "#about" },
+      { "label": "Skills", "href": "#skills" },
+      { "label": "Experience", "href": "#experience" },
+      { "label": "Projects", "href": "#projects" },
+      { "label": "Contact", "href": "#contact" }
+    ]
+  },
+  "hero": {
+    "headline": "Full-Stack Developer & Cloud Engineer",
+    "subheading": "Crafting scalable applications with modern web technologies. Specializing in Next.js, React, Node.js, and cloud infrastructure.",
+    "status": "Currently a Senior Developer at [Company Name]",
+    "cta": "View My Work",
+    "scroll": "Scroll to explore"
+  },
+  "about": {
+    "heading": "About Me",
+    "description": "I'm a passionate full-stack developer with 5+ years of experience building web applications. I love combining clean code with beautiful design to create user experiences that delight.",
+    "highlights": [
+      { "label": "Years Experience", "count": 5, "suffix": "+" },
+      { "label": "Projects Completed", "count": 50, "suffix": "+" },
+      { "label": "Technologies", "count": 20, "suffix": "+" }
+    ],
+    "capabilities": [
+      "Full-Stack Web Development",
+      "Cloud Architecture (AWS/GCP)",
+      "Database Design & Optimization",
+      "Frontend UI/UX Implementation",
+      "API Development & Integration",
+      "DevOps & CI/CD Pipeline",
+      "Team Leadership & Mentoring",
+      "Performance Optimization"
+    ]
+  },
+  "skills": [
+    {
+      "title": "Frontend",
+      "items": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vue.js"]
+    },
+    {
+      "title": "Backend",
+      "items": ["Node.js", "Express", "Python", "PostgreSQL", "MongoDB", "GraphQL"]
+    },
+    {
+      "title": "Cloud & DevOps",
+      "items": ["AWS", "Google Cloud", "Docker", "Kubernetes", "Vercel", "GitHub Actions"]
+    },
+    {
+      "title": "Tools & Others",
+      "items": ["Git", "REST APIs", "Agile/Scrum", "Linux", "Figma", "Jest/Testing"]
+    }
+  ],
+  "marqueeSkills": [
+    "React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Node.js", "Express",
+    "Python", "PostgreSQL", "MongoDB", "GraphQL", "AWS", "Google Cloud", "Docker",
+    "Kubernetes", "Vercel", "GitHub Actions", "Git", "REST APIs", "Linux", "Figma", "Jest"
+  ],
+  "experience": [
+    {
+      "period": "2023 - Present",
+      "title": "Senior Full-Stack Developer",
+      "company": "Tech Startup Inc.",
+      "bullets": [
+        "Led development of customer-facing dashboard used by 10k+ users",
+        "Improved application performance by 40% through optimization",
+        "Mentored 3 junior developers on best practices and architecture"
+      ]
+    },
+    {
+      "period": "2021 - 2023",
+      "title": "Full-Stack Developer",
+      "company": "Digital Solutions Corp.",
+      "bullets": [
+        "Developed and maintained 5+ production applications",
+        "Designed and implemented microservices architecture",
+        "Reduced deployment time from 30min to 5min with CI/CD setup"
+      ]
+    },
+    {
+      "period": "2020 - 2021",
+      "title": "Junior Developer",
+      "company": "Web Development Studio",
+      "bullets": [
+        "Built responsive web interfaces with React and Tailwind CSS",
+        "Contributed to backend API development with Node.js",
+        "Fixed 100+ bugs and implemented client feedback"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "number": "01",
+      "title": "E-Commerce Platform",
+      "description": "Full-stack e-commerce solution with real-time inventory management and payment processing",
+      "image": "https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=500&h=300&fit=crop"
+    },
+    {
+      "number": "02",
+      "title": "Analytics Dashboard",
+      "description": "Real-time analytics dashboard with interactive visualizations and data insights",
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop"
+    },
+    {
+      "number": "03",
+      "title": "AI Chat Application",
+      "description": "Modern chat application with AI-powered responses and real-time messaging",
+      "image": "https://images.unsplash.com/photo-1587614382346-4ec2e4c11b3d?w=500&h=300&fit=crop"
+    },
+    {
+      "number": "04",
+      "title": "Fitness Tracking App",
+      "description": "Mobile-first fitness tracking application with workout planning and progress analytics",
+      "image": "https://images.unsplash.com/photo-1611224885121-4b6f6627feea?w=500&h=300&fit=crop"
+    }
+  ],
+  "publications": [
+    {
+      "title": "Scaling React Applications for Production",
+      "source": "Medium",
+      "year": "2023"
+    },
+    {
+      "title": "Building Serverless APIs with AWS Lambda",
+      "source": "Dev.to",
+      "year": "2023"
+    },
+    {
+      "title": "Next.js Performance Tips and Tricks",
+      "source": "CSS-Tricks",
+      "year": "2022"
+    }
+  ],
+  "openSource": [
+    {
+      "repo": "react-hooks-library",
+      "contribution": "Popular React hooks collection with 2k+ stars",
+      "link": "https://github.com/username/react-hooks-library"
+    },
+    {
+      "repo": "next-auth-starter",
+      "contribution": "Next.js authentication starter template",
+      "link": "https://github.com/username/next-auth-starter"
+    },
+    {
+      "repo": "tailwind-plugins",
+      "contribution": "Custom Tailwind CSS plugins and utilities",
+      "link": "https://github.com/username/tailwind-plugins"
+    }
+  ],
+  "contact": {
+    "heading": "Let's Work Together",
+    "intro": "Have a project in mind? I'd love to hear about it. Whether you need a full-stack developer or just want to grab a coffee and chat about tech, feel free to reach out.",
+    "details": [
+      {
+        "label": "Email",
+        "value": "kussagra@example.com",
+        "href": "mailto:kussagra@example.com"
+      },
+      {
+        "label": "Phone",
+        "value": "+1 (555) 123-4567",
+        "href": "tel:+15551234567"
+      },
+      {
+        "label": "LinkedIn",
+        "value": "linkedin.com/in/kussagra",
+        "href": "https://linkedin.com/in/kussagra"
+      },
+      {
+        "label": "GitHub",
+        "value": "github.com/kussagra",
+        "href": "https://github.com/kussagra"
+      }
+    ],
+    "facts": [
+      {
+        "label": "Timezone",
+        "value": "IST (UTC +5:30)"
+      },
+      {
+        "label": "Available for",
+        "value": "Freelance, Contract, Full-time"
+      },
+      {
+        "label": "Response Time",
+        "value": "Within 24 hours"
+      }
+    ],
+    "form": {
+      "heading": "Send Me a Message",
+      "subheading": "Have questions or want to collaborate? Fill out the form below and I'll get back to you shortly.",
+      "submitButton": "Send Message",
+      "successMessage": "Message sent successfully! I'll get back to you within 24 hours.",
+      "errorMessage": "Failed to send message. Please try again or email me directly.",
+      "fields": {
+        "name": {
+          "label": "Full Name",
+          "placeholder": "John Doe"
+        },
+        "email": {
+          "label": "Email Address",
+          "placeholder": "john@example.com"
+        },
+        "subject": {
+          "label": "Subject",
+          "placeholder": "Project Inquiry"
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "Tell me about your project or inquiry..."
+        }
+      }
+    }
+  },
+  "footer": {
+    "note": "Designed and built with React, Next.js, and Tailwind CSS.",
+    "links": [
+      { "label": "GitHub", "href": "https://github.com/kussagra" },
+      { "label": "LinkedIn", "href": "https://linkedin.com/in/kussagra" },
+      { "label": "Twitter", "href": "https://twitter.com/kussagra" },
+      { "label": "Email", "href": "mailto:kussagra@example.com" }
+    ]
+  }
+}

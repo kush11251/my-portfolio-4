@@ -1,7 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#0a0a0a",
+};
 
 export const metadata: Metadata = {
   title: "Kussagra Pathak - Full-Stack Developer & Tech Visionary",
@@ -11,6 +18,7 @@ export const metadata: Metadata = {
   creator: "Kussagra Pathak",
   publisher: "Kussagra Pathak",
   robots: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  metadataBase: new URL("https://kussagrapathak.in"),
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -30,7 +38,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://kussagrapathak.in",
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({

@@ -49,10 +49,11 @@ export interface PortfolioData {
   about: {
     heading: string;
     description: string;
-    highlights: Array<{ label: string; value: string }>;
+    highlights: Array<{ label: string; count: number; suffix?: string }>;
     capabilities: string[];
   };
   skills: Array<{ title: string; items: string[] }>;
+  marqueeSkills: string[];
   experience: Array<{ period: string; title: string; company: string; bullets: string[] }>;
   projects: Array<{ number: string; title: string; description: string; image: string }>;
   publications: Array<{ title: string; source: string; year: string }>;
@@ -62,6 +63,19 @@ export interface PortfolioData {
     intro: string;
     details: Array<{ label: string; value: string; href: string }>;
     facts: Array<{ label: string; value: string }>;
+    form: {
+      heading: string;
+      subheading: string;
+      submitButton: string;
+      successMessage: string;
+      errorMessage: string;
+      fields: {
+        name: { label: string; placeholder: string };
+        email: { label: string; placeholder: string };
+        subject: { label: string; placeholder: string };
+        message: { label: string; placeholder: string };
+      };
+    };
   };
   footer: {
     note: string;

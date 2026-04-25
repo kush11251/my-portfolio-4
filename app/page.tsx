@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ExternalLink, GitBranch as GithubIcon, Link as LinkedinIcon, Mail, Menu, X } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
+import ContactForm from '../components/ContactForm';
+import Counter from '../components/Counter';
+import Marquee from '../components/Marquee';
 import { fetchPortfolioData, PortfolioData } from '../lib/dataService';
 import { config } from '../lib/config';
 
@@ -243,7 +246,9 @@ export default function Home() {
                   {about.highlights.map((item) => (
                     <div key={item.label} className="rounded-3xl border border-gray-800 bg-white/5 p-5">
                       <p className="text-xs text-green-400 mono uppercase tracking-[0.35em] mb-2">{item.label}</p>
-                      <p className="text-sm text-gray-300">{item.value}</p>
+                      <p className="text-2xl font-bold text-gray-100">
+                        <Counter target={item.count} suffix={item.suffix || ''} />
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -299,6 +304,13 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Marquee Skills */}
+            {data.marqueeSkills && data.marqueeSkills.length > 0 && (
+              <div className="mt-16">
+                <Marquee items={data.marqueeSkills} />
+              </div>
+            )}
           </div>
         </section>
 
@@ -506,6 +518,11 @@ export default function Home() {
                 </div>
               </div>
             </motion.div>
+
+            {/* Contact Form Section */}
+            <div className="mt-20 pt-20 border-t border-gray-800/50">
+              <ContactForm form={contact.form} />
+            </div>
           </div>
         </section>
       </main>
