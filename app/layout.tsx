@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Kussagra Pathak - Full-Stack Developer & Tech Visionary",
-  description: "Full-Stack Developer specializing in Angular, Flutter, and Node.js. Building scalable apps with engineering precision. Explore my portfolio of production-ready software solutions.",
+  description: "Full-Stack Developer specializing in Angular, Flutter, and Node.js. Building scalable apps with engineering precision.",
   keywords: ["Full-Stack Developer", "Angular", "Flutter", "Node.js", "Web Development", "Mobile App Development", "TypeScript"],
   authors: [{ name: "Kussagra Pathak" }],
   creator: "Kussagra Pathak",
@@ -55,6 +55,12 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="canonical" href="https://kussagrapathak.in" />
+        <link rel="canonical" href="https://www.kussagrapathak.in/#about" />
+        <link rel="canonical" href="https://www.kussagrapathak.in/#projects" />
+        <link rel="canonical" href="https://www.kussagrapathak.in/#blog" />
+        <link rel="canonical" href="https://www.kussagrapathak.in/#contact" />
+        <link rel="canonical" href="https://www.kussagrapathak.in/#experience" />
+        <link rel="canonical" href="https://www.kussagrapathak.in/#skills" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
