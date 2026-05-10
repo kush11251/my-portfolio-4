@@ -36,6 +36,7 @@ export const config = {
   // API
   api: {
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+    apiUrl: process.env.NEXT_PUBLIC_API_URL,
   },
 } as const;
 
