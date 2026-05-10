@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ExternalLink } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
+import { UAParser } from 'ua-parser-js';
 import ProjectCard from '../components/ProjectCard';
 import ContactForm from '../components/ContactForm';
 import Counter from '../components/Counter';
@@ -20,6 +21,48 @@ import { config } from '../lib/config';
 // - config.analytics.enabled: whether analytics should be loaded
 // - config.features.emailContact: whether to show email contact form
 
+function captureVisitorData(userNameFromUrl?: string) {
+  const parser = new UAParser();
+  const result = parser.getResult();
+
+  const deviceType = result.device.type || 'desktop';
+  const isMobile = deviceType === 'mobile';
+  const isTablet = deviceType === 'tablet';
+  const isDesktop = !isMobile && !isTablet;
+
+  const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+  const orientation = isLandscape ? 'landscape' : 'portrait';
+
+  let src = 'direct';
+  if (document.referrer) {
+    try {
+      src = new URL(document.referrer).hostname;
+    } catch (e) {
+      src = document.referrer;
+    }
+  }
+
+  const userName = userNameFromUrl || localStorage.getItem('userName') || 'Guest';
+
+  return {
+    isMobile,
+    isTablet,
+    isDesktop,
+    browser: result.browser.name || 'Unknown',
+    browser_version: result.browser.version || 'Unknown',
+    device: result.device.vendor && result.device.model
+      ? `${result.device.vendor} ${result.device.model}`
+      : (result.os.name === 'Mac OS' ? 'Macintosh' : 'Unknown'),
+    deviceType,
+    orientation,
+    os: result.os.name === 'Mac OS' ? 'Macx' : (result.os.name || 'Unknown'),
+    os_version: result.os.version || 'Unknown',
+    userAgent: navigator.userAgent,
+    src,
+    userName,
+  };
+}
+
 function HomeContent() {
   const [data, setData] = useState<PortfolioData | null>(null);
   const [activeSection, setActiveSection] = useState('about');
@@ -35,7 +78,10 @@ function HomeContent() {
       .catch((error) => {
         console.error('Failed to load portfolio data', error);
       });
-  }, []);
+
+    const visitorData = captureVisitorData(src !== 'unknown' ? src : undefined);
+    console.log('Visitor data:', visitorData);
+  }, [src]);
 
   useEffect(() => {
     const handleScroll = () => {

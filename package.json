@@ -19,7 +19,8 @@
     "postprocessing": "^6.39.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "three": "^0.184.0"
+    "three": "^0.184.0",
+    "ua-parser-js": "^2.0.9"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
