@@ -11,7 +11,6 @@ import DotField from '../components/DotField';
 import GridScan from '../components/GridScan';
 import StaggeredMenu from '../components/StaggeredMenu';
 import ProfileCard from '../components/ProfileCard';
-import BorderGlow from '../components/BorderGlow';
 import { fetchPortfolioData, PortfolioData } from '../lib/dataService';
 import { config } from '../lib/config';
 
@@ -303,28 +302,20 @@ export default function Home() {
               <h2 className="text-3xl font-bold md:text-4xl">Still curious? Here’s my profile.</h2>
             </div>
 
-            <BorderGlow
-              animated
-              glowColor="170 90 70"
-              colors={['#22c55e', '#06b6d4', '#8b5cf6']}
-              backgroundColor="#050608"
-              className="overflow-hidden rounded-[32px] p-0"
-            >
-              <div className="w-full rounded-[32px] bg-[#09090f] p-4 sm:p-6">
-                <ProfileCard
-                  avatarUrl={profileData.avatarUrl}
-                  miniAvatarUrl={profileData.miniAvatarUrl}
-                  name={profileData.name}
-                  title={profileData.title}
-                  handle={profileData.handle}
-                  status={profileData.status}
-                  contactText={profileData.contactText}
-                  onContactClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  enableMobileTilt
-                  className="mx-auto max-w-[420px]"
-                />
-              </div>
-            </BorderGlow>
+            <div className="w-full rounded-[32px] p-4 sm:p-6">
+              <ProfileCard
+                avatarUrl={profileData.avatarUrl}
+                miniAvatarUrl={profileData.miniAvatarUrl}
+                name={profileData.name}
+                title={profileData.title}
+                handle={profileData.handle}
+                status={profileData.status}
+                contactText={profileData.contactText}
+                onContactClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                enableMobileTilt
+                className="mx-auto max-w-[420px]"
+              />
+            </div>
           </div>
         </section>
 

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "Kussagra Pathak Portfolio",
     images: [
       {
-        url: "/og-image.png",
+        url: "/icon_new.svg",
         width: 1200,
         height: 630,
         alt: "Kussagra Pathak - Full-Stack Developer",
@@ -53,7 +53,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0a0a0a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icon_new.svg" />
         <link rel="canonical" href="https://kussagrapathak.in" />
         <link rel="canonical" href="https://www.kussagrapathak.in/#about" />
         <link rel="canonical" href="https://www.kussagrapathak.in/#projects" />
