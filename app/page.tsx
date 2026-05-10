@@ -108,7 +108,7 @@ function HomeContent() {
         console.error('Failed to load portfolio data', error);
       });
 
-    if (visitorDisabled) {
+    if (!visitorDisabled) {
       incrementVisitCounter();
     }
 
