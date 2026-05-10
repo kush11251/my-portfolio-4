@@ -46,6 +46,15 @@ export interface PortfolioData {
     cta: string;
     scroll: string;
   };
+  profile?: {
+    avatarUrl?: string;
+    miniAvatarUrl?: string;
+    name?: string;
+    title?: string;
+    handle?: string;
+    status?: string;
+    contactText?: string;
+  };
   about: {
     heading: string;
     description: string;

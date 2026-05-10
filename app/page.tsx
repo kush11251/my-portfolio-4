@@ -2,11 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, ExternalLink, GitBranch as GithubIcon, Link as LinkedinIcon, Mail, Menu, X } from 'lucide-react';
+import { ChevronDown, ExternalLink } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
 import ContactForm from '../components/ContactForm';
 import Counter from '../components/Counter';
 import Marquee from '../components/Marquee';
+import DotField from '../components/DotField';
+import GridScan from '../components/GridScan';
+import StaggeredMenu from '../components/StaggeredMenu';
+import ProfileCard from '../components/ProfileCard';
+import BorderGlow from '../components/BorderGlow';
 import { fetchPortfolioData, PortfolioData } from '../lib/dataService';
 import { config } from '../lib/config';
 
@@ -17,7 +22,6 @@ import { config } from '../lib/config';
 
 export default function Home() {
   const [data, setData] = useState<PortfolioData | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -70,7 +74,27 @@ export default function Home() {
     );
   }
 
-  const { header, hero, about, skills, experience, projects, publications, openSource, contact, footer, ui } = data;
+  const { header, hero, about, skills, experience, projects, publications, openSource, contact, footer, profile, ui } = data;
+
+  const profileData = {
+    avatarUrl: profile?.avatarUrl ?? '',
+    miniAvatarUrl: profile?.miniAvatarUrl ?? '',
+    name: profile?.name ?? header.title,
+    title: profile?.title ?? hero.status,
+    handle: profile?.handle ?? header.title.toLowerCase().replace(/\s+/g, ''),
+    status: profile?.status ?? 'Available for new opportunities',
+    contactText: profile?.contactText ?? 'Let’s Talk'
+  };
+
+  const menuItems = header.navLinks.map((link) => ({
+    label: link.label,
+    ariaLabel: `Go to ${link.label}`,
+    link: link.href
+  }));
+
+  const socialItems = contact.details
+    .filter((item) => ['GitHub', 'LinkedIn', 'Twitter'].includes(item.label))
+    .map((item) => ({ label: item.label, link: item.href }));
 
   return (
     <div className="min-h-screen text-white bg-[#0a0a0a]">
@@ -108,45 +132,38 @@ export default function Home() {
             })}
           </div>
 
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full border border-gray-800 bg-white/5 p-3 text-gray-300 transition hover:bg-white/10 md:hidden"
-            onClick={() => setMenuOpen((current) => !current)}
-            aria-label={menuOpen ? ui.menuOpen : ui.menuClosed}
-          >
-            {menuOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </div>
-
-        {menuOpen && (
-          <div className="bg-black/95 border-t border-gray-800 px-6 py-4 md:hidden">
-            <div className="flex flex-col gap-3 text-sm font-medium">
-              {header.navLinks.map((link) => {
-                const sectionId = link.href.replace('#', '');
-                const isActive = activeSection === sectionId;
-                return (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className={`rounded-3xl border border-gray-800 bg-white/5 px-4 py-3 transition ${
-                      isActive ? 'border-emerald-400 text-white' : 'hover:border-green-400 hover:text-white text-gray-300'
-                    }`}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                );
-              })}
-            </div>
+          <div className="md:hidden">
+            <StaggeredMenu
+              position="right"
+              isFixed
+              className="md:hidden"
+              colors={['#22c55e', '#06b6d4', '#8b5cf6']}
+              accentColor="#22c55e"
+              menuButtonColor="#d1fae5"
+              openMenuButtonColor="#ffffff"
+              items={menuItems}
+              socialItems={socialItems}
+              logoUrl="/favicon.ico"
+            />
           </div>
-        )}
+        </div>
       </motion.header>
 
       <main className="relative overflow-hidden pt-24">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.14),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.10),_transparent_24%)] pointer-events-none" />
 
-        <section className="min-h-screen flex items-center justify-center px-6 pb-20" aria-label="Hero section">
-          <div className="relative w-full max-w-5xl">
+        <section className="relative min-h-screen flex items-center justify-center px-6 pb-20" aria-label="Hero section">
+          <div className="absolute inset-0 pointer-events-none">
+            <DotField
+              dotRadius={1.5}
+              dotSpacing={14}
+              bulgeStrength={67}
+              glowRadius={160}
+              sparkle={false}
+              waveAmplitude={0}
+            />
+          </div>
+          <div className="relative w-full max-w-6xl">
             <motion.div
               className="absolute inset-0 pointer-events-none rounded-[36px] border border-gray-800"
               initial={{ opacity: 0 }}
@@ -154,74 +171,78 @@ export default function Home() {
               transition={{ duration: 0.9, delay: 0.2 }}
             />
 
-            <motion.div
-              className="relative rounded-[32px] border border-gray-800 bg-black/85 p-8 md:p-12 shadow-[0_30px_80px_rgba(0,0,0,0.45)]"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-            >
-              <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-lg mono uppercase text-gray-400 mb-3">{ui.systemStatusLabel}</p>
-                  <div className="text-sm uppercase tracking-[0.35em] text-green-400/80">{ui.systemStatusDescription}</div>
-                </div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-gray-800 bg-gray-950/80 px-4 py-2 text-xs text-green-400 mono">
-                  <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
-                  {hero.status}
-                  {config.app.env === 'development' && (
-                    <span className="ml-2 text-xs text-yellow-400">[DEV]</span>
-                  )}
-                </div>
-              </div>
+            <div className="relative rounded-[36px] border border-gray-800 bg-black/85 p-6 md:p-10 shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
+              <div className="space-y-10">
+                <motion.div
+                  className="space-y-10"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                >
+                  <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-lg mono uppercase text-gray-400 mb-3">{ui.systemStatusLabel}</p>
+                      <div className="text-sm uppercase tracking-[0.35em] text-green-400/80">{ui.systemStatusDescription}</div>
+                    </div>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-gray-800 bg-gray-950/80 px-4 py-2 text-xs text-green-400 mono">
+                      <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+                      {hero.status}
+                      {config.app.env === 'development' && (
+                        <span className="ml-2 text-xs text-yellow-400">[DEV]</span>
+                      )}
+                    </div>
+                  </div>
 
-              <motion.h1
-                className="text-4xl font-extrabold leading-tight tracking-[-0.03em] text-white sm:text-5xl md:text-6xl"
-                initial="hidden"
-                animate="visible"
-                variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
-              >
-                {hero.headline.split(' ').map((word, index) => (
-                  <motion.span
-                    key={index}
-                    className="inline-block mr-2"
-                    variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
-                    transition={{ duration: 0.45, ease: 'easeOut' }}
+                  <motion.h1
+                    className="text-4xl font-extrabold leading-tight tracking-[-0.03em] text-white sm:text-5xl md:text-6xl"
+                    initial="hidden"
+                    animate="visible"
+                    variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
                   >
-                    {word}
-                  </motion.span>
-                ))}
-              </motion.h1>
+                    {hero.headline.split(' ').map((word, index) => (
+                      <motion.span
+                        key={index}
+                        className="inline-block mr-2"
+                        variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
+                        transition={{ duration: 0.45, ease: 'easeOut' }}
+                      >
+                        {word}
+                      </motion.span>
+                    ))}
+                  </motion.h1>
 
-              <motion.p
-                className="mt-8 max-w-2xl text-base leading-8 text-gray-300 md:text-lg"
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.5 }}
-              >
-                {hero.subheading}
-              </motion.p>
+                  <motion.p
+                    className="mt-8 max-w-2xl text-base leading-8 text-gray-300 md:text-lg"
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.5 }}
+                  >
+                    {hero.subheading}
+                  </motion.p>
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <motion.a
-                  href="#projects"
-                  className="inline-flex items-center justify-center rounded-full border border-gray-700 bg-white/5 px-6 py-3 text-sm font-semibold transition hover:border-green-400 hover:text-white"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.7 }}
-                >
-                  {hero.cta}
-                </motion.a>
-                <motion.a
-                  href="#about"
-                  className="text-sm text-gray-400 mono hover:text-white"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.75 }}
-                >
-                  {hero.scroll} <ChevronDown className="inline-block ml-2" size={18} />
-                </motion.a>
+                  <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <motion.a
+                      href="#projects"
+                      className="inline-flex items-center justify-center rounded-full border border-gray-700 bg-white/5 px-6 py-3 text-sm font-semibold transition hover:border-green-400 hover:text-white"
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.7 }}
+                    >
+                      {hero.cta}
+                    </motion.a>
+                    <motion.a
+                      href="#about"
+                      className="text-sm text-gray-400 mono hover:text-white"
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.75 }}
+                    >
+                      {hero.scroll} <ChevronDown className="inline-block ml-2" size={18} />
+                    </motion.a>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -272,6 +293,38 @@ export default function Home() {
                 </ul>
               </motion.div>
             </div>
+          </div>
+        </section>
+
+        <section id="profile" className="scroll-mt-28 py-20 px-6 bg-[#090909]">
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-12 text-center">
+              <p className="text-sm mono uppercase tracking-[0.35em] text-green-400 mb-4">Profile</p>
+              <h2 className="text-3xl font-bold md:text-4xl">Still curious? Here’s my profile.</h2>
+            </div>
+
+            <BorderGlow
+              animated
+              glowColor="170 90 70"
+              colors={['#22c55e', '#06b6d4', '#8b5cf6']}
+              backgroundColor="#050608"
+              className="overflow-hidden rounded-[32px] p-0"
+            >
+              <div className="w-full rounded-[32px] bg-[#09090f] p-4 sm:p-6">
+                <ProfileCard
+                  avatarUrl={profileData.avatarUrl}
+                  miniAvatarUrl={profileData.miniAvatarUrl}
+                  name={profileData.name}
+                  title={profileData.title}
+                  handle={profileData.handle}
+                  status={profileData.status}
+                  contactText={profileData.contactText}
+                  onContactClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  enableMobileTilt
+                  className="mx-auto max-w-[420px]"
+                />
+              </div>
+            </BorderGlow>
           </div>
         </section>
 
@@ -478,8 +531,25 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className="scroll-mt-28 py-20 px-6">
-          <div className="max-w-7xl mx-auto">
+        <section id="contact" className="relative scroll-mt-28 py-20 px-6">
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <GridScan
+              sensitivity={0.55}
+              lineThickness={1}
+              linesColor="#2F293A"
+              gridScale={0.1}
+              scanColor="#FF9FFC"
+              scanOpacity={0.4}
+              enablePost
+              bloomIntensity={0.6}
+              chromaticAberration={0.002}
+              noiseIntensity={0.01}
+              className="h-full w-full"
+              style={{ opacity: 0.60 }}
+            />
+            <div className="absolute inset-0 bg-black/80" />
+          </div>
+          <div className="relative max-w-7xl mx-auto">
             <div className="mb-12 text-center">
               <p className="text-sm mono uppercase tracking-[0.35em] text-green-400 mb-4">{ui.sectionTitles.contact}</p>
               <h2 className="text-3xl font-bold md:text-4xl">{contact.heading}</h2>
@@ -525,6 +595,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+
       </main>
 
       <footer className="border-t border-gray-800 py-12 px-6 bg-[#090909]">
