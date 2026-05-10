@@ -63,6 +63,35 @@ function captureVisitorData(userNameFromUrl?: string) {
   };
 }
 
+const API_BASE_URL = config.api.apiUrl;
+
+async function incrementVisitCounter() {
+  try {
+    await fetch(`${API_BASE_URL}/api/counter/increment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.error('Counter increment failed:', error);
+  }
+}
+
+async function postVisitorData(visitorData: Record<string, unknown>) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/visitors`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(visitorData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Visitor API responded with an error');
+    }
+  } catch (error) {
+    console.error('Failed to send visitor data:', error);
+  }
+}
+
 function HomeContent() {
   const [data, setData] = useState<PortfolioData | null>(null);
   const [activeSection, setActiveSection] = useState('about');
@@ -79,9 +108,17 @@ function HomeContent() {
         console.error('Failed to load portfolio data', error);
       });
 
+    if (visitorDisabled) {
+      incrementVisitCounter();
+    }
+
     const visitorData = captureVisitorData(src !== 'unknown' ? src : undefined);
     console.log('Visitor data:', visitorData);
-  }, [src]);
+
+    if (!visitorDisabled) {
+      postVisitorData(visitorData);
+    }
+  }, [src, visitorDisabled]);
 
   useEffect(() => {
     const handleScroll = () => {

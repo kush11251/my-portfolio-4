@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { config } from '../lib/config';
 
 interface FormData {
   name: string;
@@ -36,6 +37,14 @@ export default function ContactForm({ form }: ContactFormProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const apiBaseUrl = config.api.apiUrl ;
+
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    window.setTimeout(() => setToastMessage(null), 3000);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -47,21 +56,26 @@ export default function ContactForm({ form }: ContactFormProps) {
     setIsSubmitting(true);
 
     try {
-      // Simulate form submission
-      // In production, you'd send this to an email service or API
-      console.log('Form submitted:', formData);
+      const response = await fetch(`${apiBaseUrl}/api/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-      // Fake delay to simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (!response.ok) {
+        throw new Error('Failed to submit contact details');
+      }
 
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
+      showToast('Contact submitted successfully.');
 
       // Reset status after 3 seconds
       setTimeout(() => setSubmitStatus('idle'), 3000);
     } catch (error) {
       console.error('Form submission error:', error);
       setSubmitStatus('error');
+      showToast('Contact submission failed. Please try again.');
       setTimeout(() => setSubmitStatus('idle'), 3000);
     } finally {
       setIsSubmitting(false);
@@ -184,6 +198,11 @@ export default function ContactForm({ form }: ContactFormProps) {
           </motion.button>
         </form>
       </div>
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 rounded-2xl border border-white/10 bg-black/90 px-4 py-3 text-sm text-white shadow-xl">
+          {toastMessage}
+        </div>
+      )}
     </motion.div>
   );
 }
