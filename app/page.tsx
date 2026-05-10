@@ -142,7 +142,7 @@ export default function Home() {
               openMenuButtonColor="#ffffff"
               items={menuItems}
               socialItems={socialItems}
-              logoUrl="/favicon.ico"
+              logoUrl="/icon_new.svg"
             />
           </div>
         </div>

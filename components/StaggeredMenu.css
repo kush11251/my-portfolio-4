@@ -22,16 +22,22 @@
   left: 0;
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2em;
+  align-items: center; /* Ensures vertical centering */
+  justify-content: end;
+  padding: 1rem 2rem; /* Reduced top padding to align with your main header bar */
   background: transparent;
   pointer-events: none;
-  z-index: 20;
+  z-index: 51; /* Higher than the panel to stay visible */
 }
 
 .staggered-menu-header > * {
   pointer-events: auto;
+}
+
+.staggered-menu-wrapper[data-open] .sm-logo {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
 }
 
 .sm-logo {
@@ -48,17 +54,17 @@
 }
 
 .sm-toggle {
-  position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.3rem;
-  background: transparent;
-  border: none;
+  justify-content: space-between; /* Pushes text and icon apart */
+  gap: 1rem;                      /* Adds a consistent gap between text and icon */
+  overflow: hidden;
+  height: 1.5rem;
   cursor: pointer;
-  color: #e9e9ef;
-  font-weight: 500;
-  line-height: 1;
-  overflow: visible;
+  background: none;
+  border: none;
+  padding: 0;                     /* Ensure no internal padding interferes */
+  min-width: 80px;                /* Optional: gives the button a consistent width */
 }
 
 .sm-toggle:focus-visible {
@@ -70,24 +76,27 @@
 .sm-toggle-textInner {
   display: flex;
   flex-direction: column;
-  line-height: 1;
+  height: 100%;
+  flex-grow: 1;                   /* Takes up available space on the left */
+  text-align: left;               /* Forces text to stay left-aligned */
 }
 
 .sm-toggle-line {
   display: block;
-  height: 1em;
-  line-height: 1;
+  height: 1.5rem;     /* Must match the parent .sm-toggle height */
+  line-height: 1.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .sm-icon {
-  position: relative;
-  width: 14px;
-  height: 14px;
-  flex: 0 0 14px;
-  display: inline-flex;
+  position: relative;             /* Required for the absolute lines inside */
+  display: flex;
   align-items: center;
   justify-content: center;
-  will-change: transform;
+  width: 1.2rem;                  /* Define a width for the icon area */
+  height: 1.2rem;                 /* Define a height for the icon area */
+  flex-shrink: 0;                 /* Prevents the icon from being squished */
 }
 
 .sm-panel-itemWrap {
@@ -100,7 +109,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 100%;
+  width: 100%;                    /* This now refers to the 1.2rem width of .sm-icon */
   height: 2px;
   background: currentColor;
   border-radius: 2px;
