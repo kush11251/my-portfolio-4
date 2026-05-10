@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ExternalLink } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import ProjectCard from '../components/ProjectCard';
 import ContactForm from '../components/ContactForm';
 import Counter from '../components/Counter';
@@ -19,10 +20,14 @@ import { config } from '../lib/config';
 // - config.analytics.enabled: whether analytics should be loaded
 // - config.features.emailContact: whether to show email contact form
 
-export default function Home() {
+function HomeContent() {
   const [data, setData] = useState<PortfolioData | null>(null);
   const [activeSection, setActiveSection] = useState('about');
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  const searchParams = useSearchParams();
+  const src = searchParams.get('src') || 'unknown';
+  const visitorDisabled = searchParams.get('visitorDisabled') === 'true';
 
   useEffect(() => {
     fetchPortfolioData()
@@ -150,6 +155,14 @@ export default function Home() {
 
       <main className="relative overflow-hidden pt-24">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.14),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.10),_transparent_24%)] pointer-events-none" />
+
+        {/* Debug: Query Parameters */}
+        {(src !== 'unknown' || visitorDisabled) && (
+          <div className="fixed top-20 right-6 z-40 bg-black/80 border border-gray-700 rounded-lg p-3 text-xs text-gray-300">
+            {src !== 'unknown' && <div>Source: {src}</div>}
+            {visitorDisabled && <div>Visitor: true</div>}
+          </div>
+        )}
 
         <section className="relative min-h-screen flex items-center justify-center px-6 pb-20" aria-label="Hero section">
           <div className="absolute inset-0 pointer-events-none">
@@ -605,5 +618,16 @@ export default function Home() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] text-gray-400 px-6">
+      <div className="mb-6 h-16 w-16 rounded-full border-4 border-t-4 border-white/10 border-t-emerald-400 animate-spin" />
+      <p className="text-sm uppercase tracking-[0.35em] text-gray-400">Loading portfolio...</p>
+    </div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
