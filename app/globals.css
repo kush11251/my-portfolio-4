@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body:has([data-open="true"]) .text-xl.font-bold.mono {
+  opacity: 0;
+}
+
 @layer base {
   html {
     font-family: 'Inter', sans-serif;

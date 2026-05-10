@@ -42,7 +42,7 @@ const StaggeredMenu = ({
   displaySocials = true,
   displayItemNumbering = true,
   className = '',
-  logoUrl = '/favicon.ico',
+  logoUrl = '/icon_new.svg',
   menuButtonColor = '#fff',
   openMenuButtonColor = '#fff',
   accentColor = '#10b981',
@@ -390,11 +390,7 @@ const StaggeredMenu = ({
         })()}
       </div>
 
-      <header className="staggered-menu-header" aria-label="Main navigation header">
-        <div className="sm-logo" aria-label="Logo">
-          <img src={logoUrl} alt="Logo" className="sm-logo-img" draggable={false} width={110} height={24} />
-        </div>
-
+      <div className="staggered-menu-header" aria-label="Main navigation header">
         <button
           ref={toggleBtnRef}
           className="sm-toggle"
@@ -416,19 +412,28 @@ const StaggeredMenu = ({
             <span ref={plusVRef} className="sm-icon-line sm-icon-line-v" />
           </span>
         </button>
-      </header>
+      </div>
 
       <aside id="staggered-menu-panel" ref={panelRef} className="staggered-menu-panel" aria-hidden={!open}>
         <div className="sm-panel-inner">
           <ul className="sm-panel-list" role="list" data-numbering={displayItemNumbering || undefined}>
             {items && items.length ? (
-              items.map((it, idx) => (
+                items.map((it, idx) => (
                 <li className="sm-panel-itemWrap" key={`${it.label}-${idx}`}>
-                  <a className="sm-panel-item" href={it.link} aria-label={it.ariaLabel} data-index={idx + 1}>
+                    <a 
+                    className="sm-panel-item" 
+                    href={it.link} 
+                    aria-label={it.ariaLabel} 
+                    data-index={idx + 1}
+                    /* ADD THIS ONCLICK HANDLER */
+                    onClick={() => {
+                        closeMenu();
+                    }}
+                    >
                     <span className="sm-panel-itemLabel">{it.label}</span>
-                  </a>
+                    </a>
                 </li>
-              ))
+                ))
             ) : (
               <li className="sm-panel-itemWrap" aria-hidden="true">
                 <span className="sm-panel-item">
