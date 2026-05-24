@@ -582,10 +582,11 @@ function HomeContent() {
               <h2 className="text-3xl font-bold md:text-4xl">{ui.sectionSubtitles.projects}</h2>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3 auto-rows-fr">
               {visibleProjects.map((project, index) => (
                 <motion.div
                   key={project.number}
+                  className="h-full"
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
