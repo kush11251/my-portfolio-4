@@ -8,13 +8,18 @@ interface ProjectCardProps {
   title: string;
   description: string;
   image?: string;
+  link?: string;
 }
 
-export default function ProjectCard({ number, title, description, image }: ProjectCardProps) {
+export default function ProjectCard({ number, title, description, image, link }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const Container = link ? motion.a : motion.div;
 
   return (
-    <motion.div
+    <Container
+      href={link}
+      target={link ? '_blank' : undefined}
+      rel={link ? 'noreferrer noopener' : undefined}
       className="relative border border-gray-800 rounded-3xl overflow-hidden cursor-pointer group bg-[#111111]/80 backdrop-blur hover-lift expand-line"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
@@ -61,6 +66,6 @@ export default function ProjectCard({ number, title, description, image }: Proje
           <span className="text-emerald-400 font-semibold text-sm">Explore →</span>
         </motion.div>
       </div>
-    </motion.div>
+    </Container>
   );
 }
