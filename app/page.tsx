@@ -163,6 +163,50 @@ function HomeContent() {
 
   const { header, hero, about, skills, experience, projects, publications, openSource, contact, footer, profile, ui } = data;
 
+  const visibleProjects = Array.isArray(projects)
+    ? projects.filter((project) => Boolean(project?.title || project?.description || project?.image || project?.link))
+    : [];
+  const visiblePublications = Array.isArray(publications)
+    ? publications.filter((item) => Boolean(item?.title || item?.source || item?.year))
+    : [];
+  const visibleOpenSource = Array.isArray(openSource)
+    ? openSource.filter((item) => Boolean(item?.repo || item?.contribution || item?.link))
+    : [];
+
+  const hasAbout = Boolean(
+    about?.description || about?.highlights?.length || about?.capabilities?.length
+  );
+  const hasSkills = Array.isArray(skills) && skills.some((block) => Array.isArray(block.items) && block.items.length > 0);
+  const hasExperience = Array.isArray(experience) && experience.length > 0;
+  const hasProjects = visibleProjects.length > 0;
+  const hasPublications = visiblePublications.length > 0;
+  const hasOpenSource = visibleOpenSource.length > 0;
+  const hasContact = Boolean(
+    contact?.heading || contact?.intro || contact?.details?.length || contact?.facts?.length
+  );
+
+  const menuItems = header.navLinks.map((link) => ({
+    label: link.label,
+    ariaLabel: `Go to ${link.label}`,
+    link: link.href
+  }));
+  const visibleMenuItems = menuItems.filter((item) => {
+    switch (item.link) {
+      case '#about':
+        return hasAbout;
+      case '#skills':
+        return hasSkills;
+      case '#experience':
+        return hasExperience;
+      case '#projects':
+        return hasProjects;
+      case '#contact':
+        return hasContact;
+      default:
+        return true;
+    }
+  });
+
   const profileData = {
     avatarUrl: profile?.avatarUrl ?? '',
     miniAvatarUrl: profile?.miniAvatarUrl ?? '',
@@ -172,12 +216,6 @@ function HomeContent() {
     status: profile?.status ?? 'Available for new opportunities',
     contactText: profile?.contactText ?? 'Let’s Talk'
   };
-
-  const menuItems = header.navLinks.map((link) => ({
-    label: link.label,
-    ariaLabel: `Go to ${link.label}`,
-    link: link.href
-  }));
 
   const socialItems = contact.details
     .filter((item) => ['GitHub', 'LinkedIn', 'Twitter'].includes(item.label))
@@ -202,13 +240,13 @@ function HomeContent() {
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 px-6 py-4">
           <div className="text-xl font-bold mono tracking-[0.18em]">{header.title}</div>
           <div className="hidden items-center gap-4 text-sm font-medium md:flex">
-            {header.navLinks.map((link) => {
-              const sectionId = link.href.replace('#', '');
+            {visibleMenuItems.map((link) => {
+              const sectionId = link.link.replace('#', '');
               const isActive = activeSection === sectionId;
               return (
                 <a
-                  key={link.href}
-                  href={link.href}
+                  key={link.link}
+                  href={link.link}
                   className={`transition-colors ${
                     isActive ? 'text-white border-b-2 border-emerald-400' : 'text-gray-400 hover:text-gray-200'
                   } py-1`}
@@ -341,6 +379,7 @@ function HomeContent() {
           </div>
         </section>
 
+        {hasAbout && (
         <section id="about" className="scroll-mt-28 py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="mb-12 text-center">
@@ -390,6 +429,7 @@ function HomeContent() {
             </div>
           </div>
         </section>
+        )}
 
         <section id="profile" className="scroll-mt-28 py-20 px-6 bg-[#090909]">
           <div className="max-w-7xl mx-auto">
@@ -415,6 +455,7 @@ function HomeContent() {
           </div>
         </section>
 
+        {hasSkills && (
         <section id="skills" className="scroll-mt-28 py-20 px-6 bg-[#090909]">
           <div className="max-w-7xl mx-auto">
             <div className="mb-12 text-center">
@@ -453,7 +494,9 @@ function HomeContent() {
             )}
           </div>
         </section>
+        )}
 
+        {hasExperience && (
         <section id="experience" className="scroll-mt-28 py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="mb-12 text-center">
@@ -529,7 +572,9 @@ function HomeContent() {
             </div>
           </div>
         </section>
+        )}
 
+        {hasProjects && (
         <section id="projects" className="scroll-mt-28 py-20 px-6 bg-[#090909]">
           <div className="max-w-7xl mx-auto">
             <div className="mb-12 text-center">
@@ -538,7 +583,7 @@ function HomeContent() {
             </div>
 
             <div className="grid gap-6 lg:grid-cols-3">
-              {projects.map((project, index) => (
+              {visibleProjects.map((project, index) => (
                 <motion.div
                   key={project.number}
                   initial={{ opacity: 0, y: 24 }}
@@ -552,7 +597,9 @@ function HomeContent() {
             </div>
           </div>
         </section>
+        )}
 
+        {hasPublications && (
         <section id="publications" className="scroll-mt-28 py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="mb-12 text-center">
@@ -561,7 +608,7 @@ function HomeContent() {
             </div>
 
             <div className="grid gap-4">
-              {publications.map((item, index) => (
+              {visiblePublications.map((item, index) => (
                 <motion.a
                   key={item.title}
                   href="#"
@@ -586,7 +633,9 @@ function HomeContent() {
             </div>
           </div>
         </section>
+        )}
 
+        {hasOpenSource && (
         <section id="oss" className="scroll-mt-28 py-20 px-6 bg-[#090909]">
           <div className="max-w-7xl mx-auto">
             <div className="mb-12 text-center">
@@ -595,7 +644,7 @@ function HomeContent() {
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
-              {openSource.map((item, index) => (
+              {visibleOpenSource.map((item, index) => (
                 <motion.a
                   key={item.repo}
                   href={item.link}
@@ -617,7 +666,9 @@ function HomeContent() {
             </div>
           </div>
         </section>
+        )}
 
+        {hasContact && (
         <section id="contact" className="relative scroll-mt-28 py-20 px-6">
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <GridScan
@@ -682,6 +733,7 @@ function HomeContent() {
             </div>
           </div>
         </section>
+        )}
 
       </main>
 
