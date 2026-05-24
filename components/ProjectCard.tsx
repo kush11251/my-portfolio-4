@@ -20,7 +20,7 @@ export default function ProjectCard({ number, title, description, image, link }:
       href={link}
       target={link ? '_blank' : undefined}
       rel={link ? 'noreferrer noopener' : undefined}
-      className="relative border border-gray-800 rounded-3xl overflow-hidden cursor-pointer group bg-[#111111]/80 backdrop-blur hover-lift expand-line"
+      className="relative h-full border border-gray-800 rounded-3xl overflow-hidden cursor-pointer group bg-[#111111]/80 backdrop-blur hover-lift expand-line"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       whileHover={{ y: -8 }}
