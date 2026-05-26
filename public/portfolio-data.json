@@ -103,6 +103,7 @@
       "period": "2023 - Present",
       "title": "Senior Full-Stack Developer",
       "company": "Tech Startup Inc.",
+      "tag": "Leadership",
       "bullets": [
         "Led development of customer-facing dashboard used by 10k+ users",
         "Improved application performance by 40% through optimization",
@@ -113,6 +114,7 @@
       "period": "2021 - 2023",
       "title": "Full-Stack Developer",
       "company": "Digital Solutions Corp.",
+      "tag": "Engineering",
       "bullets": [
         "Developed and maintained 5+ production applications",
         "Designed and implemented microservices architecture",
@@ -123,6 +125,7 @@
       "period": "2020 - 2021",
       "title": "Junior Developer",
       "company": "Web Development Studio",
+      "tag": "Early Career",
       "bullets": [
         "Built responsive web interfaces with React and Tailwind CSS",
         "Contributed to backend API development with Node.js",

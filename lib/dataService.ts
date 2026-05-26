@@ -63,7 +63,7 @@ export interface PortfolioData {
   };
   skills: Array<{ title: string; items: string[] }>;
   marqueeSkills: string[];
-  experience: Array<{ period: string; title: string; company: string; bullets: string[] }>;
+  experience: Array<{ period: string; title: string; company: string; bullets: string[]; tag?: string }>;
   projects: Array<{ number: string; title: string; description: string; image: string; link?: string }>;
   publications: Array<{ title: string; source: string; year: string }>;
   openSource: Array<{ repo: string; contribution: string; link: string }>;

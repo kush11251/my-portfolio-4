@@ -518,7 +518,7 @@ function HomeContent() {
                         <p className="text-sm text-gray-400">{item.company}</p>
                       </div>
                       <span className="mt-4 inline-flex rounded-full border border-gray-800 bg-white/5 px-4 py-2 text-xs mono uppercase tracking-[0.3em] text-gray-300">
-                        {ui.enterpriseTag}
+                        {item.tag ?? ui.enterpriseTag}
                       </span>
                       <ul className="mt-6 space-y-3 text-gray-300 text-sm">
                         {item.bullets.map((bullet) => (
@@ -609,28 +609,35 @@ function HomeContent() {
             </div>
 
             <div className="grid gap-4">
-              {visiblePublications.map((item, index) => (
-                <motion.a
-                  key={item.title}
-                  href="#"
-                  className="group rounded-[28px] border border-gray-800 bg-black/80 p-6 transition hover:border-green-400"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.06 }}
-                >
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="text-base font-semibold">{item.title}</p>
-                      <p className="text-sm text-gray-400">{item.source}</p>
+              {visiblePublications.map((item, index) => {
+                const publicationUrl = /^https?:\/\//i.test(item.source) ? item.source : undefined;
+                const Wrapper = publicationUrl ? motion.a : motion.div;
+
+                return (
+                  <Wrapper
+                    key={item.title}
+                    href={publicationUrl}
+                    target={publicationUrl ? '_blank' : undefined}
+                    rel={publicationUrl ? 'noreferrer noopener' : undefined}
+                    className="group rounded-[28px] border border-gray-800 bg-black/80 p-6 transition hover:border-green-400"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.06 }}
+                  >
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <p className="text-base font-semibold">{item.title}</p>
+                        <p className="text-sm text-gray-400">{item.source}</p>
+                      </div>
+                      <div className="inline-flex items-center gap-2 text-xs text-green-400 mono uppercase tracking-[0.35em]">
+                        <ExternalLink size={14} />
+                        <span>{item.year}</span>
+                      </div>
                     </div>
-                    <div className="inline-flex items-center gap-2 text-xs text-green-400 mono uppercase tracking-[0.35em]">
-                      <ExternalLink size={14} />
-                      <span>{item.year}</span>
-                    </div>
-                  </div>
-                </motion.a>
-              ))}
+                  </Wrapper>
+                );
+              })}
             </div>
           </div>
         </section>
